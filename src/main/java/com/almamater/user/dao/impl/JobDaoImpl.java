@@ -31,7 +31,7 @@ public class JobDaoImpl implements JobDao {
                 preparedStatement.setString(5, postjob.getTechs());
                 preparedStatement.setInt(6, postjob.getStudentId());
                 preparedStatement.setString(7, postjob.getContact());
-                preparedStatement.setObject(8, postjob.getDatePosted());
+                preparedStatement.setObject(8, LocalDate.now());
 
                 int rows = preparedStatement.executeUpdate();
                 return String.valueOf(rows);
@@ -83,7 +83,7 @@ public class JobDaoImpl implements JobDao {
 
     @Override
     public boolean deleteJob(int jobId) {
-        String delete = "DELETE FROM jobs WHERE studentId = ? AND jobId = ?";
+        String delete = "DELETE FROM jobs WHERE jobId = ?";
         try (Connection connection = DbUtil.getConnection(jdbcusername, jdbcpassword);
              PreparedStatement statement = connection.prepareStatement(delete)) {
             statement.setInt(1, jobId);

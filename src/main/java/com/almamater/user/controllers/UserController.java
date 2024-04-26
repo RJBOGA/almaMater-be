@@ -26,11 +26,16 @@ public class UserController {
 
     @GetMapping("getWith/{studentId}/{password}")
     public ResponseEntity<User> getUserByUsernameAndPassword(@PathVariable int studentId, @PathVariable String password) {
-        User user = userDao.getUserByUsernameAndPassword(studentId, password);
-        if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            User user = userDao.getUserByUsernameAndPassword(studentId, password);
+            if (user != null) {
+                return new ResponseEntity<>(user, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
